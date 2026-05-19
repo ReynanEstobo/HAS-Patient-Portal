@@ -21,15 +21,15 @@ http://localhost:6767
 - **Method:** `GET`
 - **URL:** `/api/patient/profile`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
 This endpoint retrieves the authenticated patient profile from the Legacy System through the Adapter Layer.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -40,15 +40,19 @@ This endpoint retrieves the authenticated patient profile from the Legacy System
 - **Method:** `GET`
 - **URL:** `/api/appointments/patient`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
+<<<<<<< HEAD
 This endpoint retrieves all upcoming appointments of the authenticated patient from the Online Appointment System.
+=======
+This endpoint retrieves available doctors and upcoming schedules from the Online Appointment System.
+
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System
+```
+>>>>>>> d4bec13998703931ae6f24ac282107d7dde247d8
 
 ---
 
@@ -59,15 +63,19 @@ This endpoint retrieves all upcoming appointments of the authenticated patient f
 - **Method:** `GET`
 - **URL:** `/api/patient/consultation/:id`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
+<<<<<<< HEAD
 This endpoint retrieves the patient consultation and appointment history through the Adapter Layer.
+=======
+This endpoint retrieves the patient’s appointment and consultation history through the Adapter Layer.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
+>>>>>>> d4bec13998703931ae6f24ac282107d7dde247d8
 
 ---
 
@@ -78,15 +86,15 @@ This endpoint retrieves the patient consultation and appointment history through
 - **Method:** `GET`
 - **URL:** `/api/patient/consultation/:id`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
 This endpoint retrieves consultation summaries including diagnosis, prescription, and doctor notes.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -120,6 +128,12 @@ Content-Type: application/json
 
 This endpoint creates and schedules a new appointment through the Online Appointment System.
 
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 6. The system must be able to place a pharmacy order
@@ -150,6 +164,12 @@ Content-Type: application/json
 
 This endpoint sends pharmacy orders to the Pharmacy Management System.
 
+### Integration Flow
+
+```text
+Patient Portal → Pharmacy Management System → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 7. The system must not process a request from an unauthorized user
@@ -163,6 +183,12 @@ authMiddleware.js
 ### Description
 
 All protected routes require JWT authentication. Unauthorized requests are automatically rejected.
+
+### Integration Flow
+
+```text
+Patient Portal → Authentication and Authorization System
+```
 
 ### Unauthorized Response
 
@@ -193,6 +219,10 @@ Used for:
 - Consultation History Retrieval
 - Legacy System Communication
 
+### Related Integrated System
+
+- Adapter Layer
+
 ---
 
 ## 2. This system needs to be connected to the Online Appointment System for appointment related tasks and data
@@ -212,6 +242,10 @@ Used for:
 - Doctor Schedule Retrieval
 - Appointment Scheduling
 
+### Related Integrated System
+
+- Online Appointment System
+
 ---
 
 ## 3. This system needs to be connected to the Pharmacy Management System for pharmacy related task
@@ -228,6 +262,10 @@ Used for:
 
 - Pharmacy Order Processing
 - Medicine Requests
+
+### Related Integrated System
+
+- Pharmacy Management System
 
 ---
 
@@ -247,6 +285,10 @@ Used for:
 - JWT Authentication
 - Identity Verification
 - Authorization
+
+### Related Integrated System
+
+- Authentication and Authorization System
 
 ---
 
@@ -292,6 +334,15 @@ The Patient Portal communicates with the Legacy System only through the HAS Adap
 Patient Portal → Adapter Layer → Legacy System
 ```
 
+<<<<<<< HEAD
+=======
+### Restricted Communication Flow
+
+```text
+Patient Portal ✖ Legacy System
+```
+
+>>>>>>> d4bec13998703931ae6f24ac282107d7dde247d8
 ---
 
 # 🛠️ Environment Variables
