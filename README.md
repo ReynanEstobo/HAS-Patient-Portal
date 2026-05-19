@@ -31,6 +31,12 @@ Authorization: Bearer <your_token>
 
 This endpoint retrieves the authenticated patient profile from the Legacy System through the Adapter Layer.
 
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 2. The system must be able to fetch all upcoming appointments of the patient
@@ -49,6 +55,12 @@ Authorization: Bearer <your_token>
 ### Description
 
 This endpoint retrieves all upcoming appointments of the authenticated patient from the Online Appointment System.
+
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System
+```
 
 ---
 
@@ -69,6 +81,12 @@ Authorization: Bearer <your_token>
 
 This endpoint retrieves the patient consultation and appointment history through the Adapter Layer.
 
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 4. The system must be able to fetch the consultation summary for each appointment
@@ -87,6 +105,12 @@ Authorization: Bearer <your_token>
 ### Description
 
 This endpoint retrieves consultation summaries including diagnosis, prescription, and doctor notes.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -120,6 +144,12 @@ Content-Type: application/json
 
 This endpoint creates and schedules a new appointment through the Online Appointment System.
 
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 6. The system must be able to place a pharmacy order
@@ -150,6 +180,12 @@ Content-Type: application/json
 
 This endpoint sends pharmacy orders to the Pharmacy Management System.
 
+### Integration Flow
+
+```text
+Patient Portal → Pharmacy Management System → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 7. The system must not process a request from an unauthorized user
@@ -163,6 +199,12 @@ authMiddleware.js
 ### Description
 
 All protected routes require JWT authentication. Unauthorized requests are automatically rejected.
+
+### Integration Flow
+
+```text
+Patient Portal → Authentication and Authorization System
+```
 
 ### Unauthorized Response
 
@@ -193,6 +235,12 @@ Used for:
 - Consultation History Retrieval
 - Legacy System Communication
 
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 2. This system needs to be connected to the Online Appointment System for appointment related tasks and data
@@ -212,6 +260,12 @@ Used for:
 - Doctor Schedule Retrieval
 - Appointment Scheduling
 
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System
+```
+
 ---
 
 ## 3. This system needs to be connected to the Pharmacy Management System for pharmacy related task
@@ -228,6 +282,12 @@ Used for:
 
 - Pharmacy Order Processing
 - Medicine Requests
+
+### Integration Flow
+
+```text
+Patient Portal → Pharmacy Management System → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -247,6 +307,12 @@ Used for:
 - JWT Authentication
 - Identity Verification
 - Authorization
+
+### Integration Flow
+
+```text
+Patient Portal → Authentication and Authorization System
+```
 
 ---
 
