@@ -1,10 +1,14 @@
 # Patient Portal
 
-A system that allows patients to view their personal information, appointments, and medical history.
+The **Patient Portal** is a healthcare microservice that allows patients to access and manage their healthcare-related information such as appointments, consultation records, and pharmacy orders.  
+
+The system communicates with external healthcare systems through the **HAS Adapter Layer**, ensuring that all legacy-related operations are centralized, secure, and properly synchronized with the Legacy Healthcare System.
 
 ---
 
 # 🚀 Base URL
+
+All Patient Portal API requests should be prefixed with the following base URL:
 
 ```text
 http://localhost:6767
@@ -12,24 +16,82 @@ http://localhost:6767
 
 ---
 
-# 📌 Functional Requirements
+# 🔐 Authentication & Authorization
 
-## 1. The system must be able to fetch the patient’s profile
-
-### Endpoint
-
-- **Method:** `GET`
-- **Full URL:** `http://localhost:6767/api/patient/profile`
-
-### Headers
+All protected Patient Portal endpoints require a Bearer token in the `Authorization` header:
 
 ```text
 Authorization: Bearer <your_token>
 ```
 
-### Description
+The Patient Portal uses the centralized **Authentication and Authorization System** for:
 
-This endpoint retrieves the authenticated patient profile from the Legacy System through the Adapter Layer.
+- User Login
+- JWT Authentication
+- Identity Verification
+- Access Control
+
+### Authentication Flow
+
+```text
+Login → Generate Token → Access Protected Patient Portal Routes
+```
+
+### Base Authentication URL
+
+```text
+https://has-auth.onrender.com/api
+```
+
+---
+
+## 🔑 Login User
+
+### Endpoint
+
+- **Method:** `POST`
+- **URL:** `http://localhost:6767/api/auth/login`
+
+### Request Body
+
+```json
+{
+  "email": "patient@gmail.com",
+  "password": "password123"
+}
+```
+
+### Integration Flow
+
+```text
+Patient Portal
+→ Authentication and Authorization System
+```
+
+---
+
+# 🧪 Patient Portal API Endpoints
+
+Use the following API setups to test the Patient Portal endpoints.
+
+---
+
+## 🧑‍⚕️ Patient Profile
+
+### Fetch Patient Profile
+
+Retrieves the authenticated patient's profile information.
+
+#### Endpoint
+
+- **Method:** `GET`
+- **URL:** `http://localhost:6767/api/patient/profile`
+
+#### Headers
+
+```text
+Authorization: Bearer <your_token>
+```
 
 ### Integration Flow
 
@@ -41,22 +103,22 @@ Patient Portal
 
 ---
 
-## 2. The system must be able to fetch all upcoming appointments of the patient
+## 📅 Appointments
 
-### Endpoint
+### Fetch Upcoming Patient Appointments
+
+Retrieves all upcoming appointments of the authenticated patient.
+
+#### Endpoint
 
 - **Method:** `GET`
-- **Full URL:** `http://localhost:6767/api/appointments/patient`
+- **URL:** `http://localhost:6767/api/appointments/patient`
 
-### Headers
+#### Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
-
-### Description
-
-This endpoint retrieves all upcoming appointments of the authenticated patient through the Adapter Layer.
 
 ### Integration Flow
 
@@ -69,75 +131,75 @@ Patient Portal
 
 ---
 
-## 3. The system must be able to fetch all appointment history of the patient
+### Fetch Available Doctors
 
-### Endpoint
+Retrieves available doctors for a specific date.
+
+#### Endpoint
 
 - **Method:** `GET`
-- **Full URL:** `http://localhost:6767/api/patient/consultations`
+- **URL:** `http://localhost:6767/api/appointments/doctors?date=2026-05-20`
 
-### Headers
+#### Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
-
-### Description
-
-This endpoint retrieves the patient consultation and appointment history through the Adapter Layer.
 
 ### Integration Flow
 
 ```text
 Patient Portal
 → Adapter Layer
+→ Online Appointment System
 → Legacy System
 ```
 
 ---
 
-## 4. The system must be able to fetch the consultation summary for each appointment
+### Fetch Doctor Schedule
 
-### Endpoint
+Retrieves the available schedule of a specific doctor.
+
+#### Endpoint
 
 - **Method:** `GET`
-- **Full URL:** `http://localhost:6767/api/patient/consultations`
+- **URL:** `http://localhost:6767/api/appointments/doctors/:doctorId/schedule?date=2026-05-20`
 
-### Headers
+#### Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
-
-### Description
-
-This endpoint retrieves consultation summaries including diagnosis, prescription, and doctor notes.
 
 ### Integration Flow
 
 ```text
 Patient Portal
 → Adapter Layer
+→ Online Appointment System
 → Legacy System
 ```
 
 ---
 
-## 5. The system must be able to schedule an appointment
+### Schedule Appointment
 
-### Endpoint
+Creates and schedules a new appointment.
+
+#### Endpoint
 
 - **Method:** `POST`
-- **Full URL:** `http://localhost:6767/api/appointments/schedule`
+- **URL:** `http://localhost:6767/api/appointments/schedule`
 
-### Headers
+#### Headers
 
 ```text
 Authorization: Bearer <your_token>
 Content-Type: application/json
 ```
 
-### Request Body
+#### Request Body
 
 ```json
 {
@@ -149,10 +211,6 @@ Content-Type: application/json
 }
 ```
 
-### Description
-
-This endpoint creates and schedules a new appointment through the Adapter Layer.
-
 ### Integration Flow
 
 ```text
@@ -164,21 +222,77 @@ Patient Portal
 
 ---
 
-## 6. The system must be able to place a pharmacy order
+## 🩺 Consultations
 
-### Endpoint
+### Fetch Consultation History
+
+Retrieves consultation and appointment history records of the authenticated patient.
+
+#### Endpoint
+
+- **Method:** `GET`
+- **URL:** `http://localhost:6767/api/patient/consultations`
+
+#### Headers
+
+```text
+Authorization: Bearer <your_token>
+```
+
+### Integration Flow
+
+```text
+Patient Portal
+→ Adapter Layer
+→ Legacy System
+```
+
+---
+
+### Fetch Consultation Summary
+
+Retrieves consultation summaries including diagnosis, prescriptions, and doctor notes.
+
+#### Endpoint
+
+- **Method:** `GET`
+- **URL:** `http://localhost:6767/api/patient/consultations`
+
+#### Headers
+
+```text
+Authorization: Bearer <your_token>
+```
+
+### Integration Flow
+
+```text
+Patient Portal
+→ Adapter Layer
+→ Legacy System
+```
+
+---
+
+## 💊 Pharmacy
+
+### Place Pharmacy Order
+
+Creates a pharmacy order request.
+
+#### Endpoint
 
 - **Method:** `POST`
-- **Full URL:** `http://localhost:6767/api/pharmacy/order`
+- **URL:** `http://localhost:6767/api/pharmacy/order`
 
-### Headers
+#### Headers
 
 ```text
 Authorization: Bearer <your_token>
 Content-Type: application/json
 ```
 
-### Request Body
+#### Request Body
 
 ```json
 {
@@ -188,10 +302,6 @@ Content-Type: application/json
 }
 ```
 
-### Description
-
-This endpoint sends pharmacy orders through the Adapter Layer.
-
 ### Integration Flow
 
 ```text
@@ -203,39 +313,11 @@ Patient Portal
 
 ---
 
-## 7. The system must not process a request from an unauthorized user
-
-### Middleware
-
-```text
-authMiddleware.js
-```
-
-### Description
-
-All protected routes require JWT authentication. Unauthorized requests are automatically rejected.
-
-### Integration Flow
-
-```text
-Patient Portal
-→ Authentication and Authorization System
-```
-
-### Unauthorized Response
-
-```json
-{
-  "success": false,
-  "message": "Unauthorized access"
-}
-```
-
----
-
 # 🔗 Integration Requirements
 
-## 1. This system needs to retrieve data from the Legacy System via the Adapter Layer
+## Adapter Layer
+
+The Patient Portal retrieves and synchronizes healthcare-related data through the HAS Adapter Layer.
 
 ### Connected Service
 
@@ -243,70 +325,19 @@ Patient Portal
 ADAPTER_LAYER_URL=https://has-adapter-layer.onrender.com/api/adapter
 ```
 
-### Description
-
-Used for:
+### Responsibilities
 
 - Patient Profile Retrieval
 - Consultation History Retrieval
-- Appointment Retrieval
-- Appointment Scheduling
-- Pharmacy Order Processing
-- Legacy System Communication
-
-### Integration Flow
-
-```text
-Patient Portal
-→ Adapter Layer
-→ Legacy System
-```
+- Appointment Management
+- Pharmacy Order Integration
+- Legacy System Synchronization
 
 ---
 
-## 2. This system needs to be connected to the Online Appointment System for appointment related tasks and data
+## Authentication and Authorization System
 
-### Description
-
-Used for:
-
-- Patient Appointment Retrieval
-- Doctor Availability
-- Doctor Schedule Retrieval
-- Appointment Scheduling
-
-### Integration Flow
-
-```text
-Patient Portal
-→ Adapter Layer
-→ Online Appointment System
-→ Legacy System
-```
-
----
-
-## 3. This system needs to be connected to the Pharmacy Management System for pharmacy related task
-
-### Description
-
-Used for:
-
-- Pharmacy Order Processing
-- Medicine Requests
-
-### Integration Flow
-
-```text
-Patient Portal
-→ Adapter Layer
-→ Pharmacy Management System
-→ Legacy System
-```
-
----
-
-## 4. This system will use the Authentication and Authorization System for login and identity verification
+Used for centralized authentication and identity verification.
 
 ### Connected Service
 
@@ -314,27 +345,18 @@ Patient Portal
 AUTH_SYSTEM_URL=https://has-auth.onrender.com/api
 ```
 
-### Description
+### Responsibilities
 
-Used for:
-
-- User Login
-- JWT Authentication
+- Login Authentication
+- JWT Token Validation
 - Identity Verification
-- Authorization
-
-### Integration Flow
-
-```text
-Patient Portal
-→ Authentication and Authorization System
-```
+- Access Control
 
 ---
 
 # ⚠️ Constraints
 
-## 1. The system needs to be independent
+## Independent System
 
 The Patient Portal operates as an independent microservice with its own:
 
@@ -345,7 +367,9 @@ The Patient Portal operates as an independent microservice with its own:
 
 ---
 
-## 2. It must handle errors if the integrated systems are not available or not working properly
+## Error Handling
+
+The system handles failures from integrated systems using centralized middleware.
 
 ### Middleware
 
@@ -364,9 +388,9 @@ errorMiddleware.js
 
 ---
 
-## 3. This system must not directly access the Legacy System
+## No Direct Legacy System Access
 
-The Patient Portal communicates with the Legacy System only through the HAS Adapter Layer.
+The Patient Portal does not directly communicate with the Legacy System.
 
 ### Allowed Communication Flow
 
@@ -416,6 +440,8 @@ npm start
 
 # 📦 Standard Response Format
 
+All responses from the Patient Portal follow a standardized JSON structure.
+
 ## Success Response
 
 ```json
@@ -433,3 +459,17 @@ npm start
   "message": "Error message"
 }
 ```
+
+---
+
+# 🚦 Common Status Codes
+
+| Code | Status | Description |
+| --- | --- | --- |
+| **200** | OK | Request succeeded |
+| **201** | Created | Resource successfully created |
+| **400** | Bad Request | Validation error |
+| **401** | Unauthorized | Missing or invalid token |
+| **403** | Forbidden | Access denied |
+| **404** | Not Found | Resource not found |
+| **500** | Server Error | Internal server error |
