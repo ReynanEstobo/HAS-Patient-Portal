@@ -21,15 +21,15 @@ http://localhost:6767
 - **Method:** `GET`
 - **URL:** `/api/patient/profile`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
 This endpoint retrieves the authenticated patient profile from the Legacy System through the Adapter Layer.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -46,15 +46,15 @@ This endpoint retrieves the authenticated patient profile from the Legacy System
 ?date=2026-05-20
 ```
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
-This endpoint retrieves all available doctors and upcoming schedules from the Online Appointment System.
+This endpoint retrieves available doctors and upcoming schedules from the Online Appointment System.
+
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System
+```
 
 ---
 
@@ -65,15 +65,15 @@ This endpoint retrieves all available doctors and upcoming schedules from the On
 - **Method:** `GET`
 - **URL:** `/api/patient/consultation/:id`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
-This endpoint retrieves the patient’s appointment and consultation history.
+This endpoint retrieves the patient’s appointment and consultation history through the Adapter Layer.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -84,15 +84,15 @@ This endpoint retrieves the patient’s appointment and consultation history.
 - **Method:** `GET`
 - **URL:** `/api/patient/consultation/:id`
 
-### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
 ### Description
 
 This endpoint retrieves consultation summaries including diagnosis, prescription, and doctor notes.
+
+### Integration Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 
@@ -126,6 +126,12 @@ Content-Type: application/json
 
 This endpoint creates and schedules a new appointment through the Online Appointment System.
 
+### Integration Flow
+
+```text
+Patient Portal → Online Appointment System → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 6. The system must be able to place a pharmacy order
@@ -156,6 +162,12 @@ Content-Type: application/json
 
 This endpoint sends pharmacy orders to the Pharmacy Management System.
 
+### Integration Flow
+
+```text
+Patient Portal → Pharmacy Management System → Adapter Layer → Legacy System
+```
+
 ---
 
 ## 7. The system must not process a request from an unauthorized user
@@ -169,6 +181,12 @@ authMiddleware.js
 ### Description
 
 All protected routes require JWT authentication. Unauthorized requests are automatically rejected.
+
+### Integration Flow
+
+```text
+Patient Portal → Authentication and Authorization System
+```
 
 ### Unauthorized Response
 
@@ -199,6 +217,10 @@ Used for:
 - Consultation History Retrieval
 - Legacy System Communication
 
+### Related Integrated System
+
+- Adapter Layer
+
 ---
 
 ## 2. This system needs to be connected to the Online Appointment System for appointment related tasks and data
@@ -217,6 +239,10 @@ Used for:
 - Doctor Schedule Retrieval
 - Appointment Scheduling
 
+### Related Integrated System
+
+- Online Appointment System
+
 ---
 
 ## 3. This system needs to be connected to the Pharmacy Management System for pharmacy related task
@@ -233,6 +259,10 @@ Used for:
 
 - Pharmacy Order Processing
 - Medicine Requests
+
+### Related Integrated System
+
+- Pharmacy Management System
 
 ---
 
@@ -253,13 +283,22 @@ Used for:
 - Identity Verification
 - Authorization
 
+### Related Integrated System
+
+- Authentication and Authorization System
+
 ---
 
 # ⚠️ Constraints
 
 ## 1. The system needs to be independent
 
-The Patient Portal operates as an independent microservice with its own controllers, routes, middleware, and services.
+The Patient Portal operates as an independent microservice with its own:
+
+- Controllers
+- Routes
+- Middleware
+- Services
 
 ---
 
@@ -285,6 +324,18 @@ errorMiddleware.js
 ## 3. This system must not directly access the Legacy System
 
 The Patient Portal communicates with the Legacy System only through the HAS Adapter Layer.
+
+### Allowed Communication Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
+
+### Restricted Communication Flow
+
+```text
+Patient Portal ✖ Legacy System
+```
 
 ---
 
