@@ -59,7 +59,7 @@ This endpoint retrieves all upcoming appointments of the authenticated patient f
 ### Integration Flow
 
 ```text
-Patient Portal → Online Appointment System
+Patient Portal → Online Appointment System → Adapter Layer → Legacy System
 ```
 
 ---
@@ -69,7 +69,7 @@ Patient Portal → Online Appointment System
 ### Endpoint
 
 - **Method:** `GET`
-- **Full URL:** `http://localhost:6767/api/patient/consultation/:id`
+- **Full URL:** `http://localhost:6767/api/patient/consultations`
 
 ### Headers
 
@@ -94,7 +94,7 @@ Patient Portal → Adapter Layer → Legacy System
 ### Endpoint
 
 - **Method:** `GET`
-- **Full URL:** `http://localhost:6767/api/patient/consultation/:id`
+- **Full URL:** `http://localhost:6767/api/patient/consultations`
 
 ### Headers
 
@@ -263,7 +263,7 @@ Used for:
 ### Integration Flow
 
 ```text
-Patient Portal → Online Appointment System
+Patient Portal → Online Appointment System → Adapter Layer → Legacy System
 ```
 
 ---

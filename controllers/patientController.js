@@ -2,7 +2,6 @@ const adapterService = require("../services/adapterService");
 
 const fetchPatientProfile = async (req, res, next) => {
   try {
-    console.log(req.user);
     const patientId = req.user.id;
 
     const token = req.headers.authorization.split(" ")[1];
