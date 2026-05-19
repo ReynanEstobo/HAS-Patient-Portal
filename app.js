@@ -3,6 +3,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const authRoutes = require("./routers/authRoutes");
 const errorMiddleware = require("./middleware/errorMiddleware");
+const patientRoutes = require("./routers/patientRoutes");
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use(errorMiddleware);
+app.use("/api/patient", patientRoutes);
 
 const PORT = process.env.PORT || 5000;
 
