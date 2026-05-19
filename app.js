@@ -23,7 +23,7 @@ app.use("/api/pharmacy", pharmacyRoutes);
 
 app.use(errorMiddleware);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 6767;
 
 app.listen(PORT, () => {
   console.log(`Patient Portal running on port ${PORT}`);
