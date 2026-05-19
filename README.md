@@ -19,7 +19,7 @@ http://localhost:6767
 ### Endpoint
 
 - **Method:** `GET`
-- **URL:** `/api/patient/profile`
+- **Full URL:** `http://localhost:6767/api/patient/profile`
 
 ### Headers
 
@@ -44,7 +44,7 @@ Patient Portal → Adapter Layer → Legacy System
 ### Endpoint
 
 - **Method:** `GET`
-- **URL:** `/api/appointments/patient`
+- **Full URL:** `http://localhost:6767/api/appointments/patient`
 
 ### Headers
 
@@ -69,7 +69,7 @@ Patient Portal → Online Appointment System
 ### Endpoint
 
 - **Method:** `GET`
-- **URL:** `/api/patient/consultation/:id`
+- **Full URL:** `http://localhost:6767/api/patient/consultation/:id`
 
 ### Headers
 
@@ -94,7 +94,7 @@ Patient Portal → Adapter Layer → Legacy System
 ### Endpoint
 
 - **Method:** `GET`
-- **URL:** `/api/patient/consultation/:id`
+- **Full URL:** `http://localhost:6767/api/patient/consultation/:id`
 
 ### Headers
 
@@ -119,7 +119,7 @@ Patient Portal → Adapter Layer → Legacy System
 ### Endpoint
 
 - **Method:** `POST`
-- **URL:** `/api/appointments/schedule`
+- **Full URL:** `http://localhost:6767/api/appointments/schedule`
 
 ### Headers
 
@@ -157,7 +157,7 @@ Patient Portal → Online Appointment System → Adapter Layer → Legacy System
 ### Endpoint
 
 - **Method:** `POST`
-- **URL:** `/api/pharmacy/order`
+- **Full URL:** `http://localhost:6767/api/pharmacy/order`
 
 ### Headers
 
