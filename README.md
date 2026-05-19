@@ -34,7 +34,9 @@ This endpoint retrieves the authenticated patient profile from the Legacy System
 ### Integration Flow
 
 ```text
-Patient Portal → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Legacy System
 ```
 
 ---
@@ -54,12 +56,15 @@ Authorization: Bearer <your_token>
 
 ### Description
 
-This endpoint retrieves all upcoming appointments of the authenticated patient from the Online Appointment System.
+This endpoint retrieves all upcoming appointments of the authenticated patient through the Adapter Layer.
 
 ### Integration Flow
 
 ```text
-Patient Portal → Online Appointment System → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Online Appointment System
+→ Legacy System
 ```
 
 ---
@@ -84,7 +89,9 @@ This endpoint retrieves the patient consultation and appointment history through
 ### Integration Flow
 
 ```text
-Patient Portal → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Legacy System
 ```
 
 ---
@@ -109,7 +116,9 @@ This endpoint retrieves consultation summaries including diagnosis, prescription
 ### Integration Flow
 
 ```text
-Patient Portal → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Legacy System
 ```
 
 ---
@@ -142,12 +151,15 @@ Content-Type: application/json
 
 ### Description
 
-This endpoint creates and schedules a new appointment through the Online Appointment System.
+This endpoint creates and schedules a new appointment through the Adapter Layer.
 
 ### Integration Flow
 
 ```text
-Patient Portal → Online Appointment System → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Online Appointment System
+→ Legacy System
 ```
 
 ---
@@ -178,12 +190,15 @@ Content-Type: application/json
 
 ### Description
 
-This endpoint sends pharmacy orders to the Pharmacy Management System.
+This endpoint sends pharmacy orders through the Adapter Layer.
 
 ### Integration Flow
 
 ```text
-Patient Portal → Pharmacy Management System → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Pharmacy Management System
+→ Legacy System
 ```
 
 ---
@@ -203,7 +218,8 @@ All protected routes require JWT authentication. Unauthorized requests are autom
 ### Integration Flow
 
 ```text
-Patient Portal → Authentication and Authorization System
+Patient Portal
+→ Authentication and Authorization System
 ```
 
 ### Unauthorized Response
@@ -233,23 +249,22 @@ Used for:
 
 - Patient Profile Retrieval
 - Consultation History Retrieval
+- Appointment Retrieval
+- Appointment Scheduling
+- Pharmacy Order Processing
 - Legacy System Communication
 
 ### Integration Flow
 
 ```text
-Patient Portal → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Legacy System
 ```
 
 ---
 
 ## 2. This system needs to be connected to the Online Appointment System for appointment related tasks and data
-
-### Connected Service
-
-```env
-ONLINE_APPOINTMENT_URL=http://localhost:8080
-```
 
 ### Description
 
@@ -263,18 +278,15 @@ Used for:
 ### Integration Flow
 
 ```text
-Patient Portal → Online Appointment System → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Online Appointment System
+→ Legacy System
 ```
 
 ---
 
 ## 3. This system needs to be connected to the Pharmacy Management System for pharmacy related task
-
-### Connected Service
-
-```env
-PHARMACY_SYSTEM_URL=http://localhost:5003
-```
 
 ### Description
 
@@ -286,7 +298,10 @@ Used for:
 ### Integration Flow
 
 ```text
-Patient Portal → Pharmacy Management System → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Pharmacy Management System
+→ Legacy System
 ```
 
 ---
@@ -311,7 +326,8 @@ Used for:
 ### Integration Flow
 
 ```text
-Patient Portal → Authentication and Authorization System
+Patient Portal
+→ Authentication and Authorization System
 ```
 
 ---
@@ -355,7 +371,9 @@ The Patient Portal communicates with the Legacy System only through the HAS Adap
 ### Allowed Communication Flow
 
 ```text
-Patient Portal → Adapter Layer → Legacy System
+Patient Portal
+→ Adapter Layer
+→ Legacy System
 ```
 
 ---
@@ -370,10 +388,6 @@ JWT_SECRET=wkzg15151515@
 AUTH_SYSTEM_URL=https://has-auth.onrender.com/api
 
 ADAPTER_LAYER_URL=https://has-adapter-layer.onrender.com/api/adapter
-
-ONLINE_APPOINTMENT_URL=http://localhost:8080
-
-PHARMACY_SYSTEM_URL=http://localhost:5003
 ```
 
 ---

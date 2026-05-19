@@ -3,10 +3,10 @@ const axios = require("axios");
 const getAvailableDoctors = async (date, token) => {
   try {
     const response = await axios.get(
-      `${process.env.ONLINE_APPOINTMENT_URL}/api/doctors/available?date=${date}`,
+      `${process.env.ADAPTER_LAYER_URL}/appointments/doctors/available?date=${date}`,
       {
         headers: {
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -22,10 +22,10 @@ const getAvailableDoctors = async (date, token) => {
 const getDoctorSchedule = async (doctorId, date, token) => {
   try {
     const response = await axios.get(
-      `${process.env.ONLINE_APPOINTMENT_URL}/api/doctors/${doctorId}/schedule?date=${date}`,
+      `${process.env.ADAPTER_LAYER_URL}/appointments/doctors/${doctorId}/schedule?date=${date}`,
       {
         headers: {
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -41,10 +41,10 @@ const getDoctorSchedule = async (doctorId, date, token) => {
 const getPatientAppointments = async (patientId, token) => {
   try {
     const response = await axios.get(
-      `${process.env.ONLINE_APPOINTMENT_URL}/api/appointments/patient/${patientId}`,
+      `${process.env.ADAPTER_LAYER_URL}/appointments/patient/${patientId}`,
       {
         headers: {
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
@@ -60,11 +60,11 @@ const getPatientAppointments = async (patientId, token) => {
 const createAppointment = async (appointmentData, token) => {
   try {
     const response = await axios.post(
-      `${process.env.ONLINE_APPOINTMENT_URL}/api/appointments`,
+      `${process.env.ADAPTER_LAYER_URL}/appointments/create`,
       appointmentData,
       {
         headers: {
-          Cookie: `token=${token}`,
+          Authorization: `Bearer ${token}`,
         },
       },
     );
