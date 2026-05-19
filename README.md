@@ -38,13 +38,7 @@ This endpoint retrieves the authenticated patient profile from the Legacy System
 ### Endpoint
 
 - **Method:** `GET`
-- **URL:** `/api/appointments/doctors`
-
-### Query Parameters
-
-```text
-?date=2026-05-20
-```
+- **URL:** `/api/appointments/patient`
 
 ### Headers
 
@@ -54,7 +48,7 @@ Authorization: Bearer <your_token>
 
 ### Description
 
-This endpoint retrieves all available doctors and upcoming schedules from the Online Appointment System.
+This endpoint retrieves all upcoming appointments of the authenticated patient from the Online Appointment System.
 
 ---
 
@@ -73,7 +67,7 @@ Authorization: Bearer <your_token>
 
 ### Description
 
-This endpoint retrieves the patient’s appointment and consultation history.
+This endpoint retrieves the patient consultation and appointment history through the Adapter Layer.
 
 ---
 
@@ -213,6 +207,7 @@ ONLINE_APPOINTMENT_URL=http://localhost:8080
 
 Used for:
 
+- Patient Appointment Retrieval
 - Doctor Availability
 - Doctor Schedule Retrieval
 - Appointment Scheduling
@@ -259,7 +254,12 @@ Used for:
 
 ## 1. The system needs to be independent
 
-The Patient Portal operates as an independent microservice with its own controllers, routes, middleware, and services.
+The Patient Portal operates as an independent microservice with its own:
+
+- Controllers
+- Routes
+- Middleware
+- Services
 
 ---
 
@@ -285,6 +285,12 @@ errorMiddleware.js
 ## 3. This system must not directly access the Legacy System
 
 The Patient Portal communicates with the Legacy System only through the HAS Adapter Layer.
+
+### Allowed Communication Flow
+
+```text
+Patient Portal → Adapter Layer → Legacy System
+```
 
 ---
 

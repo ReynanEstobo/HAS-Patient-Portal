@@ -38,6 +38,25 @@ const getDoctorSchedule = async (doctorId, date, token) => {
   }
 };
 
+const getPatientAppointments = async (patientId, token) => {
+  try {
+    const response = await axios.get(
+      `${process.env.ONLINE_APPOINTMENT_URL}/api/appointments/patient/${patientId}`,
+      {
+        headers: {
+          Cookie: `token=${token}`,
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Unable to fetch patient appointments",
+    );
+  }
+};
+
 const createAppointment = async (appointmentData, token) => {
   try {
     const response = await axios.post(
@@ -61,5 +80,6 @@ const createAppointment = async (appointmentData, token) => {
 module.exports = {
   getAvailableDoctors,
   getDoctorSchedule,
+  getPatientAppointments,
   createAppointment,
 };
