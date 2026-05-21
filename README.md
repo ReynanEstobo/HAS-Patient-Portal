@@ -1,8 +1,8 @@
 # Patient Portal
 
-The **Patient Portal** is a healthcare microservice that allows patients to access and manage their healthcare-related information such as patient profiles, appointments, consultation summaries, and pharmacy orders.
+The **Patient Portal** is an independent healthcare microservice that allows patients to access and manage healthcare-related information such as patient profiles, appointments, consultation summaries, and pharmacy orders.
 
-The system communicates with external healthcare systems through the **HAS Adapter Layer** while using the centralized **Authentication and Authorization System** for secure login and identity verification.
+The system securely communicates with integrated healthcare systems through the **Hospital Appointment System (HAS) Adapter Layer** while using the centralized **Authentication and Authorization System** for login authentication and identity verification.
 
 ---
 
@@ -16,11 +16,27 @@ http://localhost:6767
 
 ---
 
+# 🏗️ System Architecture
+
+```text
+Patient Portal
+    ↓
+Authentication & Authorization System
+    ↓
+Hospital Appointment System (HAS) Adapter Layer
+    ↓
+Legacy System
+```
+
+---
+
 # 🔐 Authentication & Authorization
 
 The Patient Portal uses JWT-based authentication through the centralized Authentication and Authorization System.
 
 All protected routes require a Bearer Token in the request headers.
+
+---
 
 ## Authorization Header
 
@@ -52,6 +68,15 @@ Authenticates the patient and generates a JWT token.
 
 ---
 
+## Integration Flow
+
+```text
+Patient Portal
+→ Authentication & Authorization System
+```
+
+---
+
 # 🧑‍⚕️ Patient Profile
 
 ## Fetch Patient Profile
@@ -69,6 +94,16 @@ Retrieves the authenticated patient's profile information.
 
 ```text
 Authorization: Bearer <your_token>
+```
+
+---
+
+## Integration Flow
+
+```text
+Patient Portal
+→ HAS Adapter Layer
+→ Legacy System
 ```
 
 ---
@@ -94,6 +129,17 @@ Authorization: Bearer <your_token>
 
 ---
 
+## Integration Flow
+
+```text
+Patient Portal
+→ HAS Adapter Layer
+→ Hospital Appointment System
+→ Legacy System
+```
+
+---
+
 ## Fetch Appointment History
 
 Retrieves all completed and previous appointments of the authenticated patient.
@@ -109,6 +155,17 @@ Retrieves all completed and previous appointments of the authenticated patient.
 
 ```text
 Authorization: Bearer <your_token>
+```
+
+---
+
+## Integration Flow
+
+```text
+Patient Portal
+→ HAS Adapter Layer
+→ Hospital Appointment System
+→ Legacy System
 ```
 
 ---
@@ -147,6 +204,17 @@ Content-Type: application/json
 
 ---
 
+## Integration Flow
+
+```text
+Patient Portal
+→ HAS Adapter Layer
+→ Hospital Appointment System
+→ Legacy System
+```
+
+---
+
 # 🩺 Consultation Endpoints
 
 ## Fetch Consultation Summary Per Appointment
@@ -172,6 +240,16 @@ http://localhost:6767/api/patient/consultations/appointment123
 
 ```text
 Authorization: Bearer <your_token>
+```
+
+---
+
+## Integration Flow
+
+```text
+Patient Portal
+→ HAS Adapter Layer
+→ Legacy System
 ```
 
 ---
@@ -210,11 +288,24 @@ Content-Type: application/json
 
 ---
 
+## Integration Flow
+
+```text
+Patient Portal
+→ HAS Adapter Layer
+→ Pharmacy Management System
+→ Legacy System
+```
+
+---
+
 # 🛡️ Unauthorized Access Prevention
 
 The system does not process requests from unauthorized users.
 
 Protected routes use JWT middleware validation before accessing services.
+
+---
 
 ## Middleware File
 
@@ -234,9 +325,9 @@ authMiddleware.js
 
 # 🔗 System Integrations
 
-## Authentication and Authorization System
+## Authentication & Authorization System
 
-Used for login authentication and identity verification.
+Used for centralized authentication and identity verification.
 
 ### Connected Service
 
@@ -246,7 +337,7 @@ AUTH_SYSTEM_URL=https://has-auth.onrender.com/api
 
 ---
 
-## Adapter Layer
+## Hospital Appointment System (HAS) Adapter Layer
 
 Used to retrieve and synchronize healthcare-related data from integrated systems.
 
@@ -255,6 +346,25 @@ Used to retrieve and synchronize healthcare-related data from integrated systems
 ```env
 ADAPTER_LAYER_URL=https://has-adapter-layer.onrender.com/api/adapter
 ```
+
+---
+
+## Hospital Appointment System (HAS)
+
+The Patient Portal communicates with the Hospital Appointment System through the HAS Adapter Layer for:
+
+- Fetching upcoming appointments
+- Fetching appointment history
+- Scheduling appointments
+
+---
+
+## Pharmacy Management System
+
+The Patient Portal communicates with the Pharmacy Management System through the HAS Adapter Layer for:
+
+- Pharmacy order creation
+- Pharmacy-related transaction handling
 
 ---
 
@@ -346,11 +456,11 @@ npm start
 
 # 🚦 Common HTTP Status Codes
 
-| Code | Status | Description |
-| --- | --- | --- |
-| **200** | OK | Request succeeded |
-| **201** | Created | Resource successfully created |
-| **401** | Unauthorized | Missing or invalid token |
+| Code    | Status                | Description                       |
+| ------- | --------------------- | --------------------------------- |
+| **200** | OK                    | Request succeeded                 |
+| **201** | Created               | Resource successfully created     |
+| **401** | Unauthorized          | Missing or invalid token          |
 | **500** | Internal Server Error | Server or integrated system error |
 
 ---
@@ -366,3 +476,16 @@ The current implementation supports the following functional requirements:
 - Schedule an appointment
 - Place a pharmacy order
 - Prevent unauthorized access
+
+---
+
+# ✅ Current System Status
+
+The Patient Portal is currently aligned with:
+
+- Functional Requirements
+- Integration Requirements
+- System Constraints
+- JWT Authentication Flow
+- HAS Adapter Layer Communication Pattern
+- Error Handling Standards
