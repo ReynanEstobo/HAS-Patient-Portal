@@ -39,13 +39,13 @@ const fetchDoctorSchedule = async (req, res, next) => {
   }
 };
 
-const fetchPatientAppointments = async (req, res, next) => {
+const fetchUpcomingAppointments = async (req, res, next) => {
   try {
     const patientId = req.user.id;
 
     const token = req.headers.authorization.split(" ")[1];
 
-    const appointments = await appointmentService.getPatientAppointments(
+    const appointments = await appointmentService.getUpcomingAppointments(
       patientId,
       token,
     );
@@ -53,6 +53,26 @@ const fetchPatientAppointments = async (req, res, next) => {
     res.status(200).json({
       success: true,
       appointments,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+const fetchAppointmentHistory = async (req, res, next) => {
+  try {
+    const patientId = req.user.id;
+
+    const token = req.headers.authorization.split(" ")[1];
+
+    const history = await appointmentService.getAppointmentHistory(
+      patientId,
+      token,
+    );
+
+    res.status(200).json({
+      success: true,
+      history,
     });
   } catch (error) {
     next(error);
@@ -78,6 +98,7 @@ const scheduleAppointment = async (req, res, next) => {
 module.exports = {
   fetchAvailableDoctors,
   fetchDoctorSchedule,
-  fetchPatientAppointments,
+  fetchUpcomingAppointments,
+  fetchAppointmentHistory,
   scheduleAppointment,
 };

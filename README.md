@@ -1,14 +1,14 @@
 # Patient Portal
 
-The **Patient Portal** is a healthcare microservice that allows patients to access and manage their healthcare-related information such as appointments, consultation records, and pharmacy orders.  
+The **Patient Portal** is an independent healthcare microservice that allows patients to access and manage healthcare-related information such as patient profiles, appointments, consultation summaries, and pharmacy orders.
 
-The system communicates with external healthcare systems through the **HAS Adapter Layer**, ensuring that all legacy-related operations are centralized, secure, and properly synchronized with the Legacy HAS.
+The system securely communicates with external healthcare services through the **HAS Adapter Layer**, ensuring centralized integration with the Legacy HAS while maintaining service independence and modularity.
 
 ---
 
 # 🚀 Base URL
 
-All Patient Portal API requests should be prefixed with the following base URL:
+All Patient Portal API requests should be prefixed with:
 
 ```text
 http://localhost:6767
@@ -16,28 +16,32 @@ http://localhost:6767
 
 ---
 
-# 🔐 Authentication & Authorization
-
-All protected Patient Portal endpoints require a Bearer token in the `Authorization` header:
+# 🏗️ System Architecture
 
 ```text
-Authorization: Bearer <your_token>
+Patient Portal
+    ↓
+Authentication & Authorization System
+    ↓
+Adapter Layer
+    ↓
+Legacy System / Online Appointment System / Pharmacy Management System
 ```
 
-The Patient Portal uses the centralized **Authentication and Authorization System** for:
+---
+
+# 🔐 Authentication & Authorization
+
+The Patient Portal uses a centralized **Authentication and Authorization System** for:
 
 - User Login
 - JWT Authentication
 - Identity Verification
 - Access Control
 
-### Authentication Flow
+---
 
-```text
-Login → Generate Token → Access Protected Patient Portal Routes
-```
-
-### Base Authentication URL
+## 🔑 Authentication Base URL
 
 ```text
 https://has-auth.onrender.com/api
@@ -45,14 +49,30 @@ https://has-auth.onrender.com/api
 
 ---
 
-## 🔑 Login User
+# 🔒 Protected Routes
 
-### Endpoint
+All protected endpoints require a Bearer Token in the request headers.
+
+## Authorization Header
+
+```text
+Authorization: Bearer <your_token>
+```
+
+---
+
+# 🔑 Login User
+
+Authenticates the patient and generates a JWT token.
+
+## Endpoint
 
 - **Method:** `POST`
 - **URL:** `http://localhost:6767/api/auth/login`
 
-### Request Body
+---
+
+## Request Body
 
 ```json
 {
@@ -61,7 +81,9 @@ https://has-auth.onrender.com/api
 }
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -70,30 +92,28 @@ Patient Portal
 
 ---
 
-# 🧪 Patient Portal API Endpoints
+# 🧑‍⚕️ Patient Endpoints
 
-Use the following API setups to test the Patient Portal endpoints.
-
----
-
-## 🧑‍⚕️ Patient Profile
-
-### Fetch Patient Profile
+## Fetch Patient Profile
 
 Retrieves the authenticated patient's profile information.
 
-#### Endpoint
+### Endpoint
 
 - **Method:** `GET`
 - **URL:** `http://localhost:6767/api/patient/profile`
 
-#### Headers
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -103,24 +123,28 @@ Patient Portal
 
 ---
 
-## 📅 Appointments
+# 📅 Appointment Endpoints
 
-### Fetch Upcoming Patient Appointments
+## Fetch Upcoming Appointments
 
 Retrieves all upcoming appointments of the authenticated patient.
 
-#### Endpoint
+### Endpoint
 
 - **Method:** `GET`
-- **URL:** `http://localhost:6767/api/appointments/patient`
+- **URL:** `http://localhost:6767/api/appointments/upcoming`
 
-#### Headers
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -131,22 +155,56 @@ Patient Portal
 
 ---
 
-### Fetch Available Doctors
+## Fetch Appointment History
 
-Retrieves available doctors for a specific date.
+Retrieves all completed and previous appointments of the authenticated patient.
 
-#### Endpoint
+### Endpoint
+
+- **Method:** `GET`
+- **URL:** `http://localhost:6767/api/appointments/history`
+
+---
+
+## Headers
+
+```text
+Authorization: Bearer <your_token>
+```
+
+---
+
+## Integration Flow
+
+```text
+Patient Portal
+→ Adapter Layer
+→ Online Appointment System
+→ Legacy System
+```
+
+---
+
+## Fetch Available Doctors
+
+Retrieves all available doctors for a specific date.
+
+### Endpoint
 
 - **Method:** `GET`
 - **URL:** `http://localhost:6767/api/appointments/doctors?date=2026-05-20`
 
-#### Headers
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -157,22 +215,34 @@ Patient Portal
 
 ---
 
-### Fetch Doctor Schedule
+## Fetch Doctor Schedule
 
 Retrieves the available schedule of a specific doctor.
 
-#### Endpoint
+### Endpoint
 
 - **Method:** `GET`
 - **URL:** `http://localhost:6767/api/appointments/doctors/:doctorId/schedule?date=2026-05-20`
 
-#### Headers
+---
+
+## Example
+
+```text
+http://localhost:6767/api/appointments/doctors/doctor123/schedule?date=2026-05-20
+```
+
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -183,23 +253,27 @@ Patient Portal
 
 ---
 
-### Schedule Appointment
+## Schedule Appointment
 
 Creates and schedules a new appointment.
 
-#### Endpoint
+### Endpoint
 
 - **Method:** `POST`
 - **URL:** `http://localhost:6767/api/appointments/schedule`
 
-#### Headers
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 Content-Type: application/json
 ```
 
-#### Request Body
+---
+
+## Request Body
 
 ```json
 {
@@ -211,7 +285,9 @@ Content-Type: application/json
 }
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -222,24 +298,36 @@ Patient Portal
 
 ---
 
-## 🩺 Consultations
+# 🩺 Consultation Endpoints
 
-### Fetch Consultation History
+## Fetch Consultation Summary Per Appointment
 
-Retrieves consultation and appointment history records of the authenticated patient.
+Retrieves the consultation summary of a specific appointment including diagnosis, prescriptions, and doctor notes.
 
-#### Endpoint
+### Endpoint
 
 - **Method:** `GET`
-- **URL:** `http://localhost:6767/api/patient/consultations`
+- **URL:** `http://localhost:6767/api/patient/consultations/:appointmentId`
 
-#### Headers
+---
+
+## Example
+
+```text
+http://localhost:6767/api/patient/consultations/appointment123
+```
+
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -249,50 +337,29 @@ Patient Portal
 
 ---
 
-### Fetch Consultation Summary
+# 💊 Pharmacy Endpoints
 
-Retrieves consultation summaries including diagnosis, prescriptions, and doctor notes.
-
-#### Endpoint
-
-- **Method:** `GET`
-- **URL:** `http://localhost:6767/api/patient/consultations`
-
-#### Headers
-
-```text
-Authorization: Bearer <your_token>
-```
-
-### Integration Flow
-
-```text
-Patient Portal
-→ Adapter Layer
-→ Legacy System
-```
-
----
-
-## 💊 Pharmacy
-
-### Place Pharmacy Order
+## Place Pharmacy Order
 
 Creates a pharmacy order request.
 
-#### Endpoint
+### Endpoint
 
 - **Method:** `POST`
 - **URL:** `http://localhost:6767/api/pharmacy/order`
 
-#### Headers
+---
+
+## Headers
 
 ```text
 Authorization: Bearer <your_token>
 Content-Type: application/json
 ```
 
-#### Request Body
+---
+
+## Request Body
 
 ```json
 {
@@ -302,7 +369,9 @@ Content-Type: application/json
 }
 ```
 
-### Integration Flow
+---
+
+## Integration Flow
 
 ```text
 Patient Portal
@@ -317,7 +386,7 @@ Patient Portal
 
 ## Adapter Layer
 
-The Patient Portal retrieves and synchronizes healthcare-related data through the HAS Adapter Layer.
+The Patient Portal communicates with external healthcare systems through the HAS Adapter Layer.
 
 ### Connected Service
 
@@ -325,59 +394,76 @@ The Patient Portal retrieves and synchronizes healthcare-related data through th
 ADAPTER_LAYER_URL=https://has-adapter-layer.onrender.com/api/adapter
 ```
 
-### Responsibilities
+---
+
+## Responsibilities
 
 - Patient Profile Retrieval
-- Consultation History Retrieval
+- Consultation Summary Retrieval
 - Appointment Management
+- Doctor Schedule Retrieval
 - Pharmacy Order Integration
 - Legacy System Synchronization
 
 ---
 
-## Authentication and Authorization System
+# 🔐 Authentication and Authorization System
 
-Used for centralized authentication and identity verification.
+Used for centralized authentication and user identity verification.
 
-### Connected Service
+## Connected Service
 
 ```env
 AUTH_SYSTEM_URL=https://has-auth.onrender.com/api
 ```
 
-### Responsibilities
+---
+
+## Responsibilities
 
 - Login Authentication
+- JWT Token Generation
 - JWT Token Validation
-- Identity Verification
 - Access Control
+- Identity Verification
 
 ---
 
-# ⚠️ Constraints
+# 🛡️ Middleware
 
-## Independent System
+## Authentication Middleware
 
-The Patient Portal operates as an independent microservice with its own:
+Protected routes use JWT middleware validation before accessing services.
 
-- Controllers
-- Routes
-- Middleware
-- Services
+### Middleware File
+
+```text
+authMiddleware.js
+```
 
 ---
 
-## Error Handling
+## Responsibilities
 
-The system handles failures from integrated systems using centralized middleware.
+- Verify JWT Token
+- Reject Unauthorized Requests
+- Attach Authenticated User Information to Requests
 
-### Middleware
+---
+
+## Error Middleware
+
+Handles failures and unavailable integrated services using centralized error handling.
+
+### Middleware File
 
 ```text
 errorMiddleware.js
 ```
 
-### Example Error Response
+---
+
+## Example Error Response
 
 ```json
 {
@@ -385,6 +471,26 @@ errorMiddleware.js
   "message": "Integrated system unavailable or internal server error"
 }
 ```
+
+---
+
+# ⚠️ Constraints
+
+## Independent System
+
+The Patient Portal operates as an independent healthcare microservice with its own:
+
+- Controllers
+- Services
+- Routes
+- Middleware
+- Environment Configuration
+
+---
+
+## Integrated System Failure Handling
+
+The system gracefully handles errors when integrated services become unavailable.
 
 ---
 
@@ -424,11 +530,15 @@ ADAPTER_LAYER_URL=https://has-adapter-layer.onrender.com/api/adapter
 npm install
 ```
 
+---
+
 ## Start Development Server
 
 ```bash
 npm run dev
 ```
+
+---
 
 ## Start Production Server
 
@@ -440,16 +550,61 @@ npm start
 
 # 📦 Standard Response Format
 
-All responses from the Patient Portal follow a standardized JSON structure.
+All Patient Portal responses follow a standardized JSON structure.
+
+---
 
 ## Success Response
 
 ```json
 {
   "success": true,
+  "message": "Optional message",
   "data": {}
 }
 ```
+
+---
+
+## Example Success Responses
+
+### Profile Response
+
+```json
+{
+  "success": true,
+  "profile": {}
+}
+```
+
+### Appointment Response
+
+```json
+{
+  "success": true,
+  "appointments": []
+}
+```
+
+### History Response
+
+```json
+{
+  "success": true,
+  "history": []
+}
+```
+
+### Consultation Summary Response
+
+```json
+{
+  "success": true,
+  "summary": {}
+}
+```
+
+---
 
 ## Error Response
 
@@ -462,7 +617,7 @@ All responses from the Patient Portal follow a standardized JSON structure.
 
 ---
 
-# 🚦 Common Status Codes
+# 🚦 Common HTTP Status Codes
 
 | Code | Status | Description |
 | --- | --- | --- |
@@ -472,4 +627,32 @@ All responses from the Patient Portal follow a standardized JSON structure.
 | **401** | Unauthorized | Missing or invalid token |
 | **403** | Forbidden | Access denied |
 | **404** | Not Found | Resource not found |
-| **500** | Server Error | Internal server error |
+| **500** | Internal Server Error | Server or integrated system error |
+
+---
+
+# 📚 Functional Requirements Coverage
+
+The current implementation fully supports the following Patient Portal functional requirements:
+
+- Fetch patient profile
+- Fetch upcoming appointments
+- Fetch appointment history
+- Fetch consultation summary per appointment
+- Schedule appointments
+- Place pharmacy orders
+- Prevent unauthorized access
+
+---
+
+# ✅ Current System Status
+
+The Patient Portal is currently aligned with:
+
+- Functional Requirements
+- Integration Requirements
+- System Constraints
+- Microservice Architecture
+- JWT Authentication Flow
+- Adapter Layer Communication Pattern
+- Error Handling Standards

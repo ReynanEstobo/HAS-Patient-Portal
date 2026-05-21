@@ -19,12 +19,12 @@ const fetchPatientProfile = async (req, res, next) => {
 
 const fetchConsultationSummary = async (req, res, next) => {
   try {
-    const patientId = req.user.id;
+    const { appointmentId } = req.params;
 
     const token = req.headers.authorization.split(" ")[1];
 
-    const summary = await adapterService.getConsultationHistory(
-      patientId,
+    const summary = await adapterService.getConsultationSummaryByAppointment(
+      appointmentId,
       token,
     );
 

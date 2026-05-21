@@ -7,9 +7,15 @@ const verifyToken = require("../middleware/authMiddleware");
 const appointmentController = require("../controllers/appointmentController");
 
 router.get(
-  "/patient",
+  "/upcoming",
   verifyToken,
-  appointmentController.fetchPatientAppointments,
+  appointmentController.fetchUpcomingAppointments,
+);
+
+router.get(
+  "/history",
+  verifyToken,
+  appointmentController.fetchAppointmentHistory,
 );
 
 router.get(

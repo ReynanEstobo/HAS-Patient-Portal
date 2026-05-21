@@ -19,10 +19,10 @@ const getPatientProfile = async (patientId, token) => {
   }
 };
 
-const getConsultationHistory = async (patientId, token) => {
+const getConsultationSummaryByAppointment = async (appointmentId, token) => {
   try {
     const response = await axios.get(
-      `${process.env.ADAPTER_LAYER_URL}/consultations/history/${patientId}`,
+      `${process.env.ADAPTER_LAYER_URL}/consultations/${appointmentId}`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -33,12 +33,12 @@ const getConsultationHistory = async (patientId, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.message || "Unable to fetch consultation history",
+      error.response?.data?.message || "Unable to fetch consultation summary",
     );
   }
 };
 
 module.exports = {
   getPatientProfile,
-  getConsultationHistory,
+  getConsultationSummaryByAppointment,
 };

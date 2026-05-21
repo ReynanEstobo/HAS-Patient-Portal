@@ -38,10 +38,10 @@ const getDoctorSchedule = async (doctorId, date, token) => {
   }
 };
 
-const getPatientAppointments = async (patientId, token) => {
+const getUpcomingAppointments = async (patientId, token) => {
   try {
     const response = await axios.get(
-      `${process.env.ADAPTER_LAYER_URL}/appointments/patient/${patientId}`,
+      `${process.env.ADAPTER_LAYER_URL}/appointments/patient/${patientId}/upcoming`,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -52,7 +52,26 @@ const getPatientAppointments = async (patientId, token) => {
     return response.data;
   } catch (error) {
     throw new Error(
-      error.response?.data?.message || "Unable to fetch patient appointments",
+      error.response?.data?.message || "Unable to fetch upcoming appointments",
+    );
+  }
+};
+
+const getAppointmentHistory = async (patientId, token) => {
+  try {
+    const response = await axios.get(
+      `${process.env.ADAPTER_LAYER_URL}/appointments/patient/${patientId}/history`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(
+      error.response?.data?.message || "Unable to fetch appointment history",
     );
   }
 };
@@ -80,6 +99,7 @@ const createAppointment = async (appointmentData, token) => {
 module.exports = {
   getAvailableDoctors,
   getDoctorSchedule,
-  getPatientAppointments,
+  getUpcomingAppointments,
+  getAppointmentHistory,
   createAppointment,
 };

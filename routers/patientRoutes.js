@@ -9,7 +9,7 @@ const patientController = require("../controllers/patientController");
 router.get("/profile", verifyToken, patientController.fetchPatientProfile);
 
 router.get(
-  "/consultations",
+  "/consultations/:appointmentId",
   verifyToken,
   patientController.fetchConsultationSummary,
 );
