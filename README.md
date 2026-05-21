@@ -2,7 +2,7 @@
 
 The **Patient Portal** is a healthcare microservice that allows patients to access and manage their healthcare-related information such as appointments, consultation records, and pharmacy orders.  
 
-The system communicates with external healthcare systems through the **HAS Adapter Layer**, ensuring that all legacy-related operations are centralized, secure, and properly synchronized with the Legacy Healthcare System.
+The system communicates with external healthcare systems through the **HAS Adapter Layer**, ensuring that all legacy-related operations are centralized, secure, and properly synchronized with the Legacy HAS.
 
 ---
 
